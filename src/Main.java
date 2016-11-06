@@ -12,12 +12,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String monthToPrintStr = scanner.nextLine();
 
+        Month monthToPrint = Calendar.getInputMonth(monthToPrintStr);
 
-        DayOfWeek dayToStartPrintCalendarFrom = DayOfWeek.TUESDAY;
+        DayOfWeek firstDayOfWeek = DayOfWeek.TUESDAY;
 
-        Calendar.printCalendar(monthToPrintStr, dayToStartPrintCalendarFrom,DayOfWeek.SUNDAY,DayOfWeek.THURSDAY);
+        Calendar.printCalendar(true, monthToPrint, firstDayOfWeek,DayOfWeek.SUNDAY,DayOfWeek.THURSDAY);
 
-        HTMLCalendarPrinter.printCalendarInHTML(DayOfWeek.MONDAY);
+        //HTMLCalendarPrinter.printCalendarInHTML(DayOfWeek.MONDAY,DayOfWeek.SUNDAY);
 
 
 

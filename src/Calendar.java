@@ -15,13 +15,19 @@ public class Calendar {
     static LocalDate dateToday = LocalDate.now();
     static String defaultPrintParameter = "%4d";
 
-    public static void printCalendar(String monthToPrintInput, DayOfWeek firstDayOfWeek, DayOfWeek... weekend) {
+    public static void printCalendar(boolean printToHTML, Month monthToPrint, DayOfWeek firstDayOfWeek, DayOfWeek... weekend) {
 
-        Month monthToPrint = getInputMonth(monthToPrintInput);
+
+
+        if(printToHTML){
+            HTMLCalendarPrinter.printCalendarInHTML(monthToPrint,firstDayOfWeek,weekend);
+        }
+        else {
         List<Day> daysToPrint = Day.createDays(monthToPrint);
 
         HeaderDays.printHeaderDays(firstDayOfWeek, weekend);
         printDays(daysToPrint, firstDayOfWeek, weekend);
+        }
     }
 
     public static Month getInputMonth(String month) {
@@ -38,7 +44,7 @@ public class Calendar {
         for (Day day : daysToPrint) {
 
             if (Day.isFirstDayOfMonth(day)) {
-                Day.printFirstDayOfMonth(day, firstDayOfWeek);
+                Day.printFirstDayOfMonth(day, firstDayOfWeek,weekend);
                 continue;
             }
 

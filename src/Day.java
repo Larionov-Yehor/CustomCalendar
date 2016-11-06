@@ -69,13 +69,17 @@ public class Day {
         return result;
     }
 
-    public static boolean isWeekend(Day day, DayOfWeek... weekends) {
+    public static boolean isWeekend(Day day, DayOfWeek... weekendsArg) {
         boolean result = false;
-        for (DayOfWeek dayOfWeek : weekends) {
-            if (day.getDayOfWeek().equals(dayOfWeek)) {
+        List<DayOfWeek> weekends = new ArrayList<>();
+
+        for (DayOfWeek dayOfWeek:weekendsArg){
+            weekends.add(dayOfWeek);
+        }
+
+            if (weekends.contains(day.getDayOfWeek())) {
                 result = true;
             }
-        }
 
         return result;
     }
@@ -144,7 +148,7 @@ public class Day {
         return  "%"+paramForSpaces+"d";
     }
 
-    public static void printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek) {
+    public static void printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek,DayOfWeek...weekends) {
 
         String parameter = getPrintGapParameter(day,firstDayOfWeek);
 
@@ -153,7 +157,7 @@ public class Day {
         if (isToday(day)) {
             switchValue = 2;
         }
-        if (isWeekend(day)) {
+        if (isWeekend(day, weekends)) {
             switchValue = 3;
         }
         if (isToday(day) & isWeekend(day)) {
