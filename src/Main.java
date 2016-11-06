@@ -17,7 +17,7 @@ public class Main {
 
         Calendar.printCalendar(monthToPrintStr, dayToStartPrintCalendarFrom,DayOfWeek.SUNDAY,DayOfWeek.THURSDAY);
 
-        HTMLCalendarPrinter.printCalendarInHTML();
+        HTMLCalendarPrinter.printCalendarInHTML(DayOfWeek.MONDAY);
 
 
 
