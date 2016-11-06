@@ -41,7 +41,7 @@ public class Tests {
 
         Day weekend = new Day();
         weekend.setDayOfWeek(DayOfWeek.SATURDAY);
-        Day.printWeekend(weekend,defaultPrintParameter, DayOfWeek.THURSDAY);
+        Day.printWeekend(weekend,defaultPrintParameter, DayOfWeek.SATURDAY);
 
         assertThat(outCont.toString(),startsWith(red));
     }

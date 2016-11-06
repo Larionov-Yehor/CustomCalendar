@@ -15,13 +15,13 @@ public class Calendar {
     static LocalDate dateToday = LocalDate.now();
     static String defaultPrintParameter = "%4d";
 
-    public static void printCalendar(String monthToPrintInput, DayOfWeek weekToStartFrom, DayOfWeek... weekend) {
+    public static void printCalendar(String monthToPrintInput, DayOfWeek firstDayOfWeek, DayOfWeek... weekend) {
 
         Month monthToPrint = getInputMonth(monthToPrintInput);
         List<Day> daysToPrint = Day.createDays(monthToPrint);
 
-        HeaderDays.printHeaderDays(weekToStartFrom, weekend);
-        printDays(daysToPrint, weekToStartFrom, weekend);
+        HeaderDays.printHeaderDays(firstDayOfWeek, weekend);
+        printDays(daysToPrint, firstDayOfWeek, weekend);
     }
 
     public static Month getInputMonth(String month) {

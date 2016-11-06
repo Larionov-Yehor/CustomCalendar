@@ -13,9 +13,11 @@ public class Main {
         String monthToPrintStr = scanner.nextLine();
 
 
-        DayOfWeek dayToStartPrintCalendarFrom = DayOfWeek.MONDAY;
+        DayOfWeek dayToStartPrintCalendarFrom = DayOfWeek.TUESDAY;
 
         Calendar.printCalendar(monthToPrintStr, dayToStartPrintCalendarFrom,DayOfWeek.SUNDAY,DayOfWeek.THURSDAY);
+
+        HTMLCalendarPrinter.printCalendarInHTML();
 
 
 

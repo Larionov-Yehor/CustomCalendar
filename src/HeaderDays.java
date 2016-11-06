@@ -12,7 +12,7 @@ public class HeaderDays {
 
         List<DayOfWeek> weekends = convertWeekendVarArgToList(weekendsParam);
 
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= DayOfWeek.values().length; i++) {
             if(weekends.contains(headerDay)){
                 printWeekendHeader(headerDay);
             }
@@ -26,13 +26,13 @@ public class HeaderDays {
 
     public static void printWeekendHeader(DayOfWeek dayOfWeek){
         System.out.print("\u001B[31m");
-        System.out.printf("%4.10s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
+        System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
         System.out.print("\u001B[0m");
     }
 
     public static void printCommonDayHeader(DayOfWeek dayOfWeek){
 
-        System.out.printf("%4.10s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
+        System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
     }
 
     public static List<DayOfWeek> convertWeekendVarArgToList(DayOfWeek...weekend){

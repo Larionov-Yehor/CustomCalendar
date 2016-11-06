@@ -126,10 +126,10 @@ public class Day {
 
         }
     }
-    public static String getPrintGapParameter(Day day, DayOfWeek firstDayOfWeekParameter){
+    public static String getPrintGapParameter(Day day, DayOfWeek firstDayOfWeekArg){
         int paramForSpaces=4;
         DayOfWeek dayOfWeek = day.getDayOfWeek();
-        DayOfWeek firstDayOfWeek = firstDayOfWeekParameter;
+        DayOfWeek firstDayOfWeek = firstDayOfWeekArg;
 
         do{
             if(dayOfWeek.equals(firstDayOfWeek)){
