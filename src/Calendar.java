@@ -17,16 +17,14 @@ public class Calendar {
 
     public static void printCalendar(boolean printToHTML, Month monthToPrint, DayOfWeek firstDayOfWeek, DayOfWeek... weekend) {
 
-
-
         if(printToHTML){
             HTMLCalendarPrinter.printCalendarInHTML(monthToPrint,firstDayOfWeek,weekend);
         }
-        else {
-        List<Day> daysToPrint = Day.createDays(monthToPrint);
 
-        HeaderDays.printHeaderDays(firstDayOfWeek, weekend);
-        printDays(daysToPrint, firstDayOfWeek, weekend);
+        else {
+            List<Day> daysToPrint = Day.createDays(monthToPrint);
+            HeaderDays.printHeaderDays(firstDayOfWeek, weekend);
+            printDays(daysToPrint, firstDayOfWeek, weekend);
         }
     }
 

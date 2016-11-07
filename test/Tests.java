@@ -25,6 +25,7 @@ public class Tests {
     public static String defaultPrintParameter = "%3d";
     public static String red = "\u001B[31m";
     public static String green = "\u001B[32m";
+    public static String resetColor = "\u001B[0m";
 
     @Before
     public void setDefStream() {
@@ -47,19 +48,6 @@ public class Tests {
     }
 
     @Test
-    public void assertTodayPrintInGreen() {
-
-        LocalDate ld = LocalDate.now();
-        Day today = new Day();
-        today.setDayOfWeek(ld.getDayOfWeek());
-        today.setPrintValue(ld.getDayOfMonth());
-
-        Day.printToday(today,defaultPrintParameter, DayOfWeek.MONDAY);
-
-        assertThat(outCont.toString(),startsWith(green));
-    }
-
-    @Test
     public void assertHeaderDaysOfWeekCorrectPrint(){
 
         HeaderDays.printHeaderDays(DayOfWeek.TUESDAY, DayOfWeek.SUNDAY);
@@ -77,7 +65,24 @@ public class Tests {
         assertTrue(daysInMonth.size()>=28 && daysInMonth.size()<=31);
     }
 
+    @Test
+    public void assertTodayPrintInGreen() {
+
+        LocalDate ld = LocalDate.now();
+        Day today = new Day();
+        today.setDayOfWeek(ld.getDayOfWeek());
+        today.setPrintValue(ld.getDayOfMonth());
+
+        Day.printToday(today,defaultPrintParameter, DayOfWeek.MONDAY);
+
+        assertThat(outCont.toString(),startsWith(green));
+    }
+
 
 
 }
+
+
+
+
 
