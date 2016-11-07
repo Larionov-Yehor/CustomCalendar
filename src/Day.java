@@ -22,7 +22,6 @@ public class Day {
     private DayOfWeek dayOfWeek;
 
     public int getPrintValue() {
-
         return printValue;
     }
 
@@ -44,6 +43,15 @@ public class Day {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public Day(){
+
+    }
+    public Day(int dayOfMonth, int dayOfYear, DayOfWeek dayOfWeek){
+        this.printValue = dayOfMonth;
+        this.dayOfYearValue = dayOfYear;
+        this.dayOfWeek =dayOfWeek;
     }
 
     public static List<Day> createDays(Month month) {
@@ -77,9 +85,9 @@ public class Day {
             weekends.add(dayOfWeek);
         }
 
-            if (weekends.contains(day.getDayOfWeek())) {
-                result = true;
-            }
+        if (weekends.contains(day.getDayOfWeek())) {
+            result = true;
+        }
 
         return result;
     }
@@ -131,7 +139,8 @@ public class Day {
         }
     }
     public static String getPrintGapParameter(Day day, DayOfWeek firstDayOfWeekArg){
-        int paramForSpaces=4;
+
+        int parameterForSpaces=4;
         DayOfWeek dayOfWeek = day.getDayOfWeek();
         DayOfWeek firstDayOfWeek = firstDayOfWeekArg;
 
@@ -139,13 +148,13 @@ public class Day {
             if(dayOfWeek.equals(firstDayOfWeek)){
                 break;
             }
-            paramForSpaces+=4;
+            parameterForSpaces+=4;
 
             firstDayOfWeek=firstDayOfWeek.plus(1);
 
         }while (!dayOfWeek.equals(firstDayOfWeek));
 
-        return  "%"+paramForSpaces+"d";
+        return "%"+parameterForSpaces+"d";
     }
 
     public static void printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek,DayOfWeek...weekends) {

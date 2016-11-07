@@ -11,9 +11,9 @@ import java.util.Locale;
 
 public class HTMLCalendarPrinter {
 
-    private static String startOfFile = "<html> <head> <title>Calendar</title><link href=\"style.css\" rel=\"stylesheet\"></head> <body> <table>";
-    private static String endOfFile = "</table></body></html>";
-    private static String style = " .weekendColor{color: #FE0000;} .currentDayColor {color: #00FE00;} td{ width: 30px;}";
+    private static final String startOfFile = "<html> <head> <title>Calendar</title><link href=\"style.css\" rel=\"stylesheet\"></head> <body> <table>";
+    private static final String endOfFile = "</table></body></html>";
+    private static final String style = " .weekend{color: #FE0000;} .currentDay {color: #00FE00;} td{ width: 30px;}";
 
 
     public static void printCalendarInHTML(Month month, DayOfWeek firstDayOfWeek, DayOfWeek... weekends) {
@@ -50,6 +50,30 @@ public class HTMLCalendarPrinter {
 
     }
 
+    public static String printShortDaysNames(DayOfWeek firstDayOfWeek, DayOfWeek... weekendsParam) {
+
+        String result = "<tr>";
+
+        DayOfWeek headerDay = firstDayOfWeek;
+
+        List<DayOfWeek> weekends = HeaderDays.convertWeekendVarArgToList(weekendsParam);
+
+        for (int i = 1; i <= DayOfWeek.values().length; i++) {
+
+            if (weekends.contains(headerDay)) {
+                result += printWeekendHeader(headerDay);
+            }
+
+            else {
+                result += printCommonHeader(headerDay);
+            }
+            headerDay = headerDay.plus(1);
+        }
+
+        return result + "</tr>\n";
+    }
+
+
     public static String printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek, DayOfWeek... weekends) {
 
         String result = "";
@@ -57,10 +81,10 @@ public class HTMLCalendarPrinter {
         int switchValue = 0;
 
         if (Day.isToday(day)) {
-            switchValue = 2;
+            switchValue = 1;
         }
         if (Day.isWeekend(day, weekends)) {
-            switchValue = 3;
+            switchValue = 2;
         }
         if (Day.isToday(day) & Day.isWeekend(day, weekends)) {
             switchValue = 1;
@@ -74,11 +98,9 @@ public class HTMLCalendarPrinter {
                 result += printToday(day, firstDayOfWeek);
                 break;
             case 2:
-                result += printToday(day, firstDayOfWeek);
-                break;
-            case 3:
                 result += printWeekend(day, firstDayOfWeek);
                 break;
+
         }
 
         return result;
@@ -87,7 +109,7 @@ public class HTMLCalendarPrinter {
     public static String printWeekend(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td class=\"weekendColor\">" + day.getPrintValue() + "</td>";
+        result += "<td class=\"weekend\">" + day.getPrintValue() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -96,7 +118,7 @@ public class HTMLCalendarPrinter {
     public static String printToday(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td class=\"currentDayColor\">" + day.getPrintValue() + "</td>";
+        result += "<td class=\"currentDay\">" + day.getPrintValue() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -105,7 +127,7 @@ public class HTMLCalendarPrinter {
     public static String printCommonDay(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td>" + day.getPrintValue() + "</td>";
+        result += "<td>" + day.getPrintValue() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -144,26 +166,15 @@ public class HTMLCalendarPrinter {
     }
 
 
-    public static String printShortDaysNames(DayOfWeek firstDayOfWeek, DayOfWeek... weekendsParam) {
 
-        String result = "<tr>";
+    public static String printWeekendHeader(DayOfWeek dayOfWeek){
 
-        DayOfWeek headerDay = firstDayOfWeek;
+        return "<td class=\"weekend\">" + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
+    }
 
-        List<DayOfWeek> weekends = HeaderDays.convertWeekendVarArgToList(weekendsParam);
+    public static String printCommonHeader(DayOfWeek dayOfWeek){
 
-        for (int i = 1; i <= DayOfWeek.values().length; i++) {
-
-            if (weekends.contains(headerDay)) {
-                result += "<td class=\"weekendColor\">" + headerDay.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
-
-            } else {
-                result += "<td>" + headerDay.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
-            }
-            headerDay = headerDay.plus(1);
-        }
-
-        return result + "</tr>\n";
+        return "<td>" + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
     }
 
 

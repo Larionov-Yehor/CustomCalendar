@@ -14,13 +14,10 @@ public class Main {
 
         Month monthToPrint = Calendar.getInputMonth(monthToPrintStr);
 
-        DayOfWeek firstDayOfWeek = DayOfWeek.TUESDAY;
+        DayOfWeek firstDayOfWeek = DayOfWeek.SUNDAY;
 
-        Calendar.printCalendar(true, monthToPrint, firstDayOfWeek,DayOfWeek.SUNDAY,DayOfWeek.THURSDAY);
-
-        //HTMLCalendarPrinter.printCalendarInHTML(DayOfWeek.MONDAY,DayOfWeek.SUNDAY);
-
-
+        Calendar calendar = new Calendar();
+        calendar.printCalendar(WayToPrint.CONSOLE, monthToPrint, firstDayOfWeek,DayOfWeek.SUNDAY,DayOfWeek.MONDAY);
 
     }
 }

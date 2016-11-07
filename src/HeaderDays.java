@@ -25,14 +25,17 @@ public class HeaderDays {
     }
 
     public static void printWeekendHeader(DayOfWeek dayOfWeek){
+
         System.out.print("\u001B[31m");
         System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
         System.out.print("\u001B[0m");
+
     }
 
     public static void printCommonDayHeader(DayOfWeek dayOfWeek){
 
         System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
+
     }
 
     public static List<DayOfWeek> convertWeekendVarArgToList(DayOfWeek...weekend){
@@ -42,7 +45,7 @@ public class HeaderDays {
         for (DayOfWeek dayOfWeek:weekend){
             weekends.add(dayOfWeek);
         }
-        return weekends;}
+        return weekends;
+    }
 
 }
-

@@ -4,11 +4,15 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static javax.xml.transform.OutputKeys.METHOD;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.*;
@@ -21,11 +25,11 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class Tests {
-    public static ByteArrayOutputStream outCont = new ByteArrayOutputStream();
-    public static String defaultPrintParameter = "%3d";
+
+    public ByteArrayOutputStream outCont = new ByteArrayOutputStream();
+    public static String defaultPrintParameter = "%4d";
     public static String red = "\u001B[31m";
     public static String green = "\u001B[32m";
-    public static String resetColor = "\u001B[0m";
 
     @Before
     public void setDefStream() {
@@ -34,6 +38,7 @@ public class Tests {
 
     @After
     public void cleanUpStream() {
+        System.out.flush();
         System.setOut(null);
     }
 
@@ -44,9 +49,23 @@ public class Tests {
         weekend.setDayOfWeek(DayOfWeek.SATURDAY);
         Day.printWeekend(weekend,defaultPrintParameter, DayOfWeek.SATURDAY);
 
-        assertThat(outCont.toString(),startsWith(red));
+        assertThat(outCont.toString(),containsString(red));
     }
+    @Test
+    public void assertTodayPrintInGreen() {
 
+        LocalDate ld = LocalDate.now();
+        Day today = new Day();
+        today.setDayOfWeek(ld.getDayOfWeek());
+        today.setPrintValue(ld.getDayOfMonth());
+        today.setDayOfYearValue(ld.getDayOfYear());
+
+        Day.printToday(today,defaultPrintParameter, DayOfWeek.MONDAY);
+
+        assertThat(outCont.toString(),containsString(green));
+
+
+    }
     @Test
     public void assertHeaderDaysOfWeekCorrectPrint(){
 
@@ -60,29 +79,13 @@ public class Tests {
     @Test
     public void checkIfNumberOfDaysInMonthNotBiggerThan31AndNotLessThan28(){
 
-        List<Day> daysInMonth =  Day.createDays(Month.DECEMBER);
+        List<Day> daysInMonth = Day.createDays(Month.DECEMBER);
 
         assertTrue(daysInMonth.size()>=28 && daysInMonth.size()<=31);
     }
 
-    @Test
-    public void assertTodayPrintInGreen() {
 
-        LocalDate ld = LocalDate.now();
-        Day today = new Day();
-        today.setDayOfWeek(ld.getDayOfWeek());
-        today.setPrintValue(ld.getDayOfMonth());
-
-        Day.printToday(today,defaultPrintParameter, DayOfWeek.MONDAY);
-
-        assertThat(outCont.toString(),startsWith(green));
-    }
 
 
 
 }
-
-
-
-
-
