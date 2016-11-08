@@ -17,49 +17,92 @@ import java.util.Set;
 
 public abstract class Calendar {
 
-    static LocalDate dateToday = LocalDate.now();
-    static String defaultPrintParameter = "%4d";
-
-
-    private YearMonth month;
+   // private YearMonth month;
     private DayOfWeek weekStart;
-
     private LocalDate today;
+
     private Set<DayOfWeek> weekend = new HashSet<>();
     private Locale locale;
 
     public Calendar() {
-        this(YearMonth.now());
+        this(LocalDate.now());
     }
 
-    public Calendar(YearMonth month) {
-        this(month, LocalDate.now());
+    public Calendar(LocalDate today) {
+
+        this(today, DayOfWeek.MONDAY);
     }
 
-    public Calendar(YearMonth month, LocalDate today) {
-        this.month = month;
-        this.today = today;
+    public Calendar(LocalDate today, DayOfWeek weekStart) {
 
-        setWeekend(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-        setWeekStart(DayOfWeek.MONDAY);
+        setWeekend(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY);
         setLocale(Locale.ENGLISH);
+
+        setWeekStart(weekStart);
+        setToday(today);
     }
 
 
     public abstract String printWeekendHeader(DayOfWeek dayOfWeek);
     public abstract String printCommonHeader(DayOfWeek dayOfWeek);
     public abstract String printGaps();
-    public abstract String printCommonDay(String day);
+    public abstract String nextLine();
+    public abstract String printCommonDay(LocalDate date);
+    public abstract String printWeekend(LocalDate date);
+    public abstract String printCurrentDay(LocalDate date);
+    public abstract void print();
 
-    public String print(){
+    public abstract void setWeekStart(DayOfWeek weekStart);
+    public abstract void setToday(LocalDate today);
+
+
+
+    public String pullTogether(){
 
         return  //printMonthAndYear()+
                 printDaysNames()+
-               // printFirstDayOfMonth()+
-                printDays();
+                printGapsBeforeFirstDayOfMonth()+
+                printDaysOfMonth();
     }
 
-    public String printFirstDay(){
+    public String printDaysOfMonth(){
+
+        String result = "";
+
+        LocalDate date = getToday().withDayOfMonth(1);
+
+        LocalDate lastDayOfMonth = getToday().withDayOfMonth(getToday().lengthOfMonth());
+
+        for (int i=1; i<=lastDayOfMonth.getDayOfMonth(); i++){
+
+            result += printDay(date);
+
+            date = date.plusDays(1);
+        }
+
+        return result;
+    }
+
+    public String printDay(LocalDate date){
+        String result = "";
+
+        if (isCurrentDay(date)){
+            result += printCurrentDay(date);
+        }
+        else if (isWeekend(date.getDayOfWeek())){
+            result += printWeekend(date);
+        }
+
+        else {
+         result += printCommonDay(date);
+        }
+        if(isLastDayOfWeek(date)){
+          result +=  nextLine();
+        }
+
+        return result;}
+
+    public String printGapsBeforeFirstDayOfMonth(){
 
         String result = "";
 
@@ -70,8 +113,6 @@ public abstract class Calendar {
             result += printGaps();
 
             }
-
-            result += printCommonDay("1");
 
         return result;
     }
@@ -99,18 +140,16 @@ public abstract class Calendar {
 
     }
 
-    public String printDaysNames() {
+    private String printDaysNames() {
 
         String res = "";
 
         DayOfWeek dayOfWeek = getWeekStart();
         Set<DayOfWeek> weekend = getWeekend();
 
-
-
         for(int i=1; i<=DayOfWeek.values().length; i++){
 
-            if(weekend.contains(dayOfWeek)){
+            if(isWeekend(dayOfWeek)){
                 res+=printWeekendHeader(dayOfWeek);
             }
             else {
@@ -120,62 +159,51 @@ public abstract class Calendar {
 
         }
 
-        return res;
+        return res+nextLine();
     }
 
-    public boolean isLastDayOfWeek(){
+    private boolean isLastDayOfWeek(LocalDate date){
 
         DayOfWeek lastDayOfWeek = getWeekStart().plus(6);
 
-       /* if(____.equals(lastDayOfWeek)){
+      if(date.getDayOfWeek().equals(lastDayOfWeek)){
             return true;
-        }*/
+        }
+        else  return false;
+    }
 
-      return false;}
+    private boolean isWeekend(DayOfWeek dayOfWeek){
+        if(getWeekend().contains(dayOfWeek)){
+            return true;
+        }
+        return false;
+    }
+    private boolean isCurrentDay(LocalDate date){
+        if(date.equals(LocalDate.now())){
+            return true;
+        }
+
+    return false;}
 
 
 
-        public String printMonthAndYear(){
+    public String printMonthAndYear(){
        return null;
    }
 
 
-    public String printDays(){
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void setWeekend(DayOfWeek... weekend) {
-
+        this.weekend.clear();
         for (DayOfWeek dayOfWeek : weekend) {
             this.weekend.add(dayOfWeek);
         }
 
     }
 
-    public void setWeekStart(DayOfWeek dayOfWeek) {
+    /*public void setWeekStart(DayOfWeek dayOfWeek) {
         this.weekStart = dayOfWeek;
 
-    }
+    }*/
 
     public void setLocale(Locale locale) {
 
@@ -186,18 +214,11 @@ public abstract class Calendar {
 
 
 
-
-
-
-
-
     public LocalDate getToday() {
         return today;
     }
 
-    public YearMonth getMonth() {
-        return month;
-    }
+
 
     public DayOfWeek getWeekStart() {
         return weekStart;
@@ -211,57 +232,3 @@ public abstract class Calendar {
         return locale;
     }
 }
-
-
-
-
-
-           // HTMLCalendarPrinter.printCalendarInHTML(month,firstDayOfWeek,weekend);
-
-            //List<Day> daysToPrint = Day.createDays(month)
-
-
-
-
-
-    /*public static void printCalendarToConsole(Month month, DayOfWeek firstDayOfWeek, DayOfWeek...weekend){
-        List<Day> daysToPrint = Day.createDays(month);
-        HeaderDays.printHeaderDays(firstDayOfWeek, weekend);
-        printDays(daysToPrint, firstDayOfWeek, weekend);
-    }
-*/
-
-
-  /*  public static void printDays(List<Day> daysToPrint, DayOfWeek firstDayOfWeek, DayOfWeek... weekend) {
-
-        for (Day day : daysToPrint) {
-
-            if (Day.isFirstDayOfMonth(day)) {
-                Day.printFirstDayOfMonth(day, firstDayOfWeek,weekend);
-                continue;
-            }
-
-            if (Day.isToday(day)) {
-                Day.printToday(day, defaultPrintParameter, firstDayOfWeek);
-                continue;
-            }
-
-            if (Day.isWeekend(day, weekend)) {
-                Day.printWeekend(day, defaultPrintParameter, firstDayOfWeek);
-                continue;
-            }
-            Day.printCommonDay(day, defaultPrintParameter, firstDayOfWeek);
-        }
-    }
-
-    public static Month getInputMonth(String month) {
-
-        if (month.isEmpty()) {
-            Month monthToPrint = dateToday.getMonth();
-            return monthToPrint;
-        }
-        return Month.valueOf(month);
-    }
-
-
-}*/

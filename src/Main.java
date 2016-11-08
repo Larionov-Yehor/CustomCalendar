@@ -18,22 +18,19 @@ public class Main {
 
        // DayOfWeek firstDayOfWeek = DayOfWeek.SUNDAY;
 
+        YearMonth y = YearMonth.now();
+        LocalDate l = LocalDate.of(2016, 9,1);
 
-
-
-
-        YearMonth y=YearMonth.now();
-        LocalDate l = LocalDate.now();
         ConsoleCalendar consoleCalendar = new ConsoleCalendar();
-        System.out.println(consoleCalendar.printDaysNames());
-        System.out.print(consoleCalendar.printFirstDay());
+
+        consoleCalendar.setLocale(Locale.ITALIAN);
+        consoleCalendar.setWeekStart(DayOfWeek.WEDNESDAY);
+
+        consoleCalendar.print();
 
         HtmlCalendar htmlCalendar = new HtmlCalendar();
-        //htmlCalendar.setWeekStart(DayOfWeek.SUNDAY);
-        htmlCalendar.printHtml();
-
-
-        //calendar.print(WayToPrint.CONSOLE, monthToPrint, firstDayOfWeek,DayOfWeek.SUNDAY,DayOfWeek.MONDAY);
+        htmlCalendar.setWeekStart(DayOfWeek.SUNDAY);
+        htmlCalendar.print();
 
     }
 }

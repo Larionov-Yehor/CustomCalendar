@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
@@ -12,15 +13,15 @@ import java.util.Locale;
  */
 public class HtmlCalendar extends Calendar {
 
-    private static final String startOfFile = "<html> <head> <title>Calendar</title><link href=\"style.css\" rel=\"stylesheet\"></head> <body> <table>";
+    private static final String startOfFile = "<html> <head> <title>Calendar</title><link href=\"style.css\" rel=\"stylesheet\"></head> <body> <table><tr>";
     private static final String endOfFile = "</tr></table></body></html>";
     private static final String style = " .weekend{color: #FE0000;} .currentDay {color: #00FE00;} td{ width: 30px;}";
 
     private static String htmlFileContent = " ";
 
-    public void printHtml(){
+    public void print(){
 
-        htmlFileContent = startOfFile+ "<tr>" + printDaysNames() + "</tr>"+ printFirstDay()+ endOfFile;
+        htmlFileContent = startOfFile+ pullTogether() + endOfFile;
         writeCalendarToHTMLFileAndStyleToCSS(htmlFileContent, style);
 
     }
@@ -28,13 +29,13 @@ public class HtmlCalendar extends Calendar {
     @Override
     public String printWeekendHeader(DayOfWeek dayOfWeek) {
 
-        return "<td class=\"weekend\">" + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
+        return "<td class=\"weekend\">" + dayOfWeek.getDisplayName(TextStyle.SHORT, getLocale()) + "</td>\n";
     }
 
     @Override
     public String printCommonHeader(DayOfWeek dayOfWeek) {
 
-        return "<td>" + dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH) + "</td>\n";
+        return "<td>" + dayOfWeek.getDisplayName(TextStyle.SHORT, getLocale()) + "</td>\n";
     }
 
     @Override
@@ -47,15 +48,31 @@ public class HtmlCalendar extends Calendar {
     }
 
     @Override
-    public String printCommonDay(String day) {
-        return "<td>" + day + "</td>";
+    public String printCommonDay(LocalDate date) {
+
+        return "<td>" + date.getDayOfMonth() + "</td>";
+    }
+
+    @Override
+    public String printWeekend(LocalDate date) {
+        return "<td class=\"weekend\">" + date.getDayOfMonth() + "</td>\n";
+    }
+
+    @Override
+    public String printCurrentDay(LocalDate date) {
+        return "<td class=\"currentDay\">" + date.getDayOfMonth() + "</td>\n";
+    }
+
+    @Override
+    public String nextLine() {
+        return "</tr><tr>";
     }
 
 
     public static void writeCalendarToHTMLFileAndStyleToCSS(String htmlFileContent, String cssFileContent) {
 
-        Path pathHTML = Paths.get("/home/employee/Desktop/HTML/Calendar.html");
-        Path pathCSS = Paths.get("/home/employee/Desktop/HTML/style.css");
+        Path pathHTML = Paths.get("C:\\Users\\LaroSelf\\Desktop\\HTML\\Calendar.html");
+        Path pathCSS = Paths.get("C:\\Users\\LaroSelf\\Desktop\\HTML\\style.css");
 
         File fileHTML = pathHTML.toFile();
         File fileCSS = pathCSS.toFile();
