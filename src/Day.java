@@ -1,5 +1,3 @@
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -13,28 +11,28 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
  */
 public class Day {
 
-    static LocalDate dateToday = LocalDate.now();
-    static int currentYear = dateToday.getYear();
-    static int currentDay = dateToday.getDayOfYear();
 
-    private int printValue;
-    private int dayOfYearValue;
+    static int currentYear = LocalDate.now().getYear();
+    static int currentDay = LocalDate.now().getDayOfYear();
+
+    private int dayOfMonth;
+    private int dayOfYear;
     private DayOfWeek dayOfWeek;
 
-    public int getPrintValue() {
-        return printValue;
+    public int getDayOfMonth() {
+        return dayOfMonth;
     }
 
-    public void setPrintValue(int printValue) {
-        this.printValue = printValue;
+    public void setDayOfMonth(int dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
     }
 
     public int getDayOfYearValue() {
-        return dayOfYearValue;
+        return dayOfYear;
     }
 
     public void setDayOfYearValue(int dayOfYearValue) {
-        this.dayOfYearValue = dayOfYearValue;
+        this.dayOfYear = dayOfYearValue;
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -49,8 +47,8 @@ public class Day {
 
     }
     public Day(int dayOfMonth, int dayOfYear, DayOfWeek dayOfWeek){
-        this.printValue = dayOfMonth;
-        this.dayOfYearValue = dayOfYear;
+        this.dayOfMonth = dayOfMonth;
+        this.dayOfYear = dayOfYear;
         this.dayOfWeek =dayOfWeek;
     }
 
@@ -68,7 +66,7 @@ public class Day {
 
             day.setDayOfYearValue(localDateToPrint.getDayOfYear());
             day.setDayOfWeek(localDateToPrint.getDayOfWeek());
-            day.setPrintValue(localDateToPrint.getDayOfMonth());
+            day.setDayOfMonth(localDateToPrint.getDayOfMonth());
 
             result.add(day);
 
@@ -77,7 +75,7 @@ public class Day {
         return result;
     }
 
-    public static boolean isWeekend(Day day, DayOfWeek... weekendsArg) {
+    public boolean isWeekend(Day day, DayOfWeek... weekendsArg) {
         boolean result = false;
         List<DayOfWeek> weekends = new ArrayList<>();
 
@@ -92,41 +90,20 @@ public class Day {
         return result;
     }
 
-    public static boolean isToday(Day day) {
+    public boolean isToday() {
         boolean result = false;
-        if (day.getDayOfYearValue() == currentDay) {
+        if (dayOfYear== currentDay) {
             result = true;
         }
         return result;
     }
 
-    public static boolean isFirstDayOfMonth(Day day) {
+    public boolean isFirstDayOfMonth() {
         boolean result = false;
-        if (day.getPrintValue() == 1) {
+        if (dayOfMonth == 1) {
             result = true;
         }
         return result;
-    }
-
-    public static void printWeekend(Day day, String parameter,DayOfWeek firstDayOfWeek) {
-
-        System.out.print("\u001B[31m");
-        System.out.printf(parameter, day.getPrintValue());
-        System.out.print("\u001B[0m");
-        isLastDayOfWeek(day,firstDayOfWeek);
-    }
-
-    public static void printToday(Day day, String parameter, DayOfWeek firstDayOfWeek) {
-
-        System.out.print("\u001B[32m");
-        System.out.printf(parameter, day.getPrintValue());
-        System.out.print("\u001B[0m");
-        isLastDayOfWeek(day,firstDayOfWeek);
-    }
-
-    public static void printCommonDay(Day day, String parameter, DayOfWeek firstDayOfWeek){
-        System.out.printf(parameter, day.getPrintValue());
-        isLastDayOfWeek(day,firstDayOfWeek);
     }
 
     public static void isLastDayOfWeek(Day day, DayOfWeek firstDayOfWeek){
@@ -138,6 +115,28 @@ public class Day {
 
         }
     }
+
+    public static void printWeekend(Day day, String parameter,DayOfWeek firstDayOfWeek) {
+
+        System.out.print("\u001B[31m");
+        System.out.printf(parameter, day.getDayOfMonth());
+        System.out.print("\u001B[0m");
+        isLastDayOfWeek(day,firstDayOfWeek);
+    }
+
+    public static void printToday(Day day, String parameter, DayOfWeek firstDayOfWeek) {
+
+        System.out.print("\u001B[32m");
+        System.out.printf(parameter, day.getDayOfMonth());
+        System.out.print("\u001B[0m");
+        isLastDayOfWeek(day,firstDayOfWeek);
+    }
+
+    public static void printCommonDay(Day day, String parameter, DayOfWeek firstDayOfWeek){
+        System.out.printf(parameter, day.getDayOfMonth());
+        isLastDayOfWeek(day,firstDayOfWeek);
+    }
+
     public static String getPrintGapParameter(Day day, DayOfWeek firstDayOfWeekArg){
 
         int parameterForSpaces=4;
@@ -157,13 +156,13 @@ public class Day {
         return "%"+parameterForSpaces+"d";
     }
 
-    public static void printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek,DayOfWeek...weekends) {
+   /* public static void printFirstDayOfMonth(Day day, DayOfWeek firstDayOfWeek,DayOfWeek...weekends) {
 
         String parameter = getPrintGapParameter(day,firstDayOfWeek);
 
         int switchValue = 0;
 
-        if (isToday(day)) {
+        if (day.isToday()) {
             switchValue = 2;
         }
         if (isWeekend(day, weekends)) {
@@ -187,5 +186,5 @@ public class Day {
                 printWeekend(day,parameter,firstDayOfWeek);
                 break;
         }
-    }
+    }*/
 }

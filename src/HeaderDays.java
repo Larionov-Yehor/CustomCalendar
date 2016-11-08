@@ -1,3 +1,4 @@
+/*
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.DayOfWeek;
@@ -27,7 +28,7 @@ public class HeaderDays {
     public static void printWeekendHeader(DayOfWeek dayOfWeek){
 
         System.out.print("\u001B[31m");
-        System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
+        System.out.printf("%4s",dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)).;
         System.out.print("\u001B[0m");
 
     }
@@ -48,4 +49,4 @@ public class HeaderDays {
         return weekends;
     }
 
-}
+}*/

@@ -1,18 +1,15 @@
+/*
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static javax.xml.transform.OutputKeys.METHOD;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.*;
@@ -20,9 +17,11 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+*/
 /**
  * Created by employee on 11/2/16.
- */
+ *//*
+
 
 public class Tests {
 
@@ -57,7 +56,7 @@ public class Tests {
         LocalDate ld = LocalDate.now();
         Day today = new Day();
         today.setDayOfWeek(ld.getDayOfWeek());
-        today.setPrintValue(ld.getDayOfMonth());
+        today.setDayOfMonth(ld.getDayOfMonth());
         today.setDayOfYearValue(ld.getDayOfYear());
 
         Day.printToday(today,defaultPrintParameter, DayOfWeek.MONDAY);
@@ -88,4 +87,4 @@ public class Tests {
 
 
 
-}
+}*/

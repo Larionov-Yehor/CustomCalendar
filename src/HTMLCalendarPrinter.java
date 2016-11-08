@@ -1,3 +1,4 @@
+/*
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -109,7 +110,7 @@ public class HTMLCalendarPrinter {
     public static String printWeekend(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td class=\"weekend\">" + day.getPrintValue() + "</td>\n";
+        result += "<td class=\"weekend\">" + day.getDayOfMonth() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -118,7 +119,7 @@ public class HTMLCalendarPrinter {
     public static String printToday(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td class=\"currentDay\">" + day.getPrintValue() + "</td>\n";
+        result += "<td class=\"currentDay\">" + day.getDayOfMonth() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -127,7 +128,7 @@ public class HTMLCalendarPrinter {
     public static String printCommonDay(Day day, DayOfWeek firstDayOfWeek) {
 
         String result = "";
-        result += "<td>" + day.getPrintValue() + "</td>\n";
+        result += "<td>" + day.getDayOfMonth() + "</td>\n";
         result += ifLastDayOfWeekAddNewRowToTable(day, firstDayOfWeek);
 
         return result;
@@ -210,4 +211,4 @@ public class HTMLCalendarPrinter {
         }
         return false;
     }
-}
+}*/
