@@ -9,12 +9,18 @@ import java.util.Locale;
 public class ConsoleCalendar extends Calendar {
 
     public ConsoleCalendar() {
+
         this(LocalDate.now());
     }
 
     public ConsoleCalendar(LocalDate today) {
 
         this(today, DayOfWeek.MONDAY);
+    }
+
+    public ConsoleCalendar(DayOfWeek dayOfWeek) {
+
+        this(LocalDate.now(), dayOfWeek);
     }
 
     public ConsoleCalendar(LocalDate today, DayOfWeek weekStart) {
@@ -26,6 +32,20 @@ public class ConsoleCalendar extends Calendar {
         setToday(today);
     }
 
+
+    @Override
+    public String printYearHeader() {
+
+        return Integer.toString(getToday().getYear());
+
+    }
+
+    @Override
+    public String printMonthHeader() {
+
+        return "\t" + getToday().getMonth().getDisplayName(TextStyle.FULL, getLocale());
+
+    }
 
     @Override
     public String printWeekendHeader(DayOfWeek dayOfWeek) {
@@ -77,23 +97,20 @@ public class ConsoleCalendar extends Calendar {
     }
 
     @Override
-    public void print() {
-        System.out.print(pullTogether());
-    }
-
-    @Override
-    public void setWeekStart(DayOfWeek weekStart) {
-
-    }
-
-    @Override
-    public void setToday(LocalDate today) {
-
-    }
-
-    @Override
     public String nextLine() {
         return "\n";
+    }
+    @Override
+    public void print() {
+
+        String result ="";
+        result +=
+                printYearHeaderAndMonth()+
+                        printDaysNames()+
+                        printGapsBeforeFirstDayOfMonth()+
+                        printDaysOfMonth();
+
+        System.out.println(result);
     }
 
 

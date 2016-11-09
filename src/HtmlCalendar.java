@@ -17,13 +17,33 @@ public class HtmlCalendar extends Calendar {
     private static final String endOfFile = "</tr></table></body></html>";
     private static final String style = " .weekend{color: #FE0000;} .currentDay {color: #00FE00;} td{ width: 30px;}";
 
-    private static String htmlFileContent = " ";
+    public HtmlCalendar() {
 
-    public void print(){
+        this(LocalDate.now());
+    }
 
-        htmlFileContent = startOfFile+ pullTogether() + endOfFile;
-        writeCalendarToHTMLFileAndStyleToCSS(htmlFileContent, style);
+    public HtmlCalendar(LocalDate today) {
 
+        this(today, DayOfWeek.MONDAY);
+    }
+
+    public HtmlCalendar(LocalDate today, DayOfWeek weekStart) {
+
+        setWeekend(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY);
+        setLocale(Locale.ENGLISH);
+
+        setWeekStart(weekStart);
+        setToday(today);
+    }
+
+    @Override
+    public String printYearHeader() {
+        return Integer.toString(getToday().getYear());
+    }
+
+    @Override
+    public String printMonthHeader() {
+        return getToday().getMonth().getDisplayName(TextStyle.FULL, getLocale());
     }
 
     @Override
@@ -65,14 +85,30 @@ public class HtmlCalendar extends Calendar {
 
     @Override
     public String nextLine() {
+
         return "</tr><tr>";
     }
+
+    @Override
+    public void print(){
+        String htmlFileContent = "";
+        htmlFileContent  =  startOfFile+
+                printYearHeaderAndMonth()+
+                printDaysNames()+
+                printGapsBeforeFirstDayOfMonth()+
+                printDaysOfMonth()+
+                endOfFile;
+
+        writeCalendarToHTMLFileAndStyleToCSS(htmlFileContent, style);
+
+    }
+
 
 
     public static void writeCalendarToHTMLFileAndStyleToCSS(String htmlFileContent, String cssFileContent) {
 
-        Path pathHTML = Paths.get("C:\\Users\\LaroSelf\\Desktop\\HTML\\Calendar.html");
-        Path pathCSS = Paths.get("C:\\Users\\LaroSelf\\Desktop\\HTML\\style.css");
+        Path pathHTML = Paths.get("/home/employee/Desktop/HTML/Calendar.html");
+        Path pathCSS = Paths.get("/home/employee/Desktop/HTML/style.css");
 
         File fileHTML = pathHTML.toFile();
         File fileCSS = pathCSS.toFile();

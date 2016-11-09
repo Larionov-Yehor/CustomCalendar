@@ -11,25 +11,18 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-       // Scanner scanner = new Scanner(System.in);
-        //String monthToPrintStr = scanner.nextLine();
 
-       // Month monthToPrint = Calendar.getInputMonth(monthToPrintStr);
-
-       // DayOfWeek firstDayOfWeek = DayOfWeek.SUNDAY;
-
-        YearMonth y = YearMonth.now();
         LocalDate l = LocalDate.of(2016, 9,1);
 
-        ConsoleCalendar consoleCalendar = new ConsoleCalendar();
+        ConsoleCalendar consoleCalendar = new ConsoleCalendar(l);
 
-        consoleCalendar.setLocale(Locale.ITALIAN);
+       // consoleCalendar.setLocale(Locale.ITALIAN);
         consoleCalendar.setWeekStart(DayOfWeek.WEDNESDAY);
 
         consoleCalendar.print();
 
-        HtmlCalendar htmlCalendar = new HtmlCalendar();
-        htmlCalendar.setWeekStart(DayOfWeek.SUNDAY);
+        HtmlCalendar htmlCalendar = new HtmlCalendar(LocalDate.now(), DayOfWeek.MONDAY);
+        //htmlCalendar.setWeekStart(DayOfWeek.WEDNESDAY);
         htmlCalendar.print();
 
     }

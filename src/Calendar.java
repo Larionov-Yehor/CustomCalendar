@@ -1,10 +1,7 @@
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.YearMonth;
+import java.time.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -19,30 +16,14 @@ public abstract class Calendar {
 
    // private YearMonth month;
     private DayOfWeek weekStart;
-    private LocalDate today;
+    private LocalDate today = LocalDate.now();
 
     private Set<DayOfWeek> weekend = new HashSet<>();
     private Locale locale;
 
-    public Calendar() {
-        this(LocalDate.now());
-    }
 
-    public Calendar(LocalDate today) {
-
-        this(today, DayOfWeek.MONDAY);
-    }
-
-    public Calendar(LocalDate today, DayOfWeek weekStart) {
-
-        setWeekend(DayOfWeek.SUNDAY, DayOfWeek.SATURDAY);
-        setLocale(Locale.ENGLISH);
-
-        setWeekStart(weekStart);
-        setToday(today);
-    }
-
-
+    public abstract String printYearHeader();
+    public abstract String printMonthHeader();
     public abstract String printWeekendHeader(DayOfWeek dayOfWeek);
     public abstract String printCommonHeader(DayOfWeek dayOfWeek);
     public abstract String printGaps();
@@ -52,18 +33,7 @@ public abstract class Calendar {
     public abstract String printCurrentDay(LocalDate date);
     public abstract void print();
 
-    public abstract void setWeekStart(DayOfWeek weekStart);
-    public abstract void setToday(LocalDate today);
 
-
-
-    public String pullTogether(){
-
-        return  //printMonthAndYear()+
-                printDaysNames()+
-                printGapsBeforeFirstDayOfMonth()+
-                printDaysOfMonth();
-    }
 
     public String printDaysOfMonth(){
 
@@ -106,7 +76,7 @@ public abstract class Calendar {
 
         String result = "";
 
-        int param = generateEmptySpacesBeforeFirstDayOfMonth();
+        int param = generateNumberOfEmptySpacesBeforeFirstDayOfMonth();
 
         for(int i=1; i<=param; i++){
   
@@ -117,13 +87,16 @@ public abstract class Calendar {
         return result;
     }
 
-    public int generateEmptySpacesBeforeFirstDayOfMonth(){
+    public int generateNumberOfEmptySpacesBeforeFirstDayOfMonth(){
 
         int result = 0;
 
-        DayOfWeek firstDayOfWeek = getWeekStart();
-        DayOfWeek dayOfWeek = getToday().withDayOfMonth(1).getDayOfWeek();
 
+        DayOfWeek firstDayOfWeek = getWeekStart();
+
+        DayOfWeek dayOfWeek = getToday()
+                .withDayOfMonth(1)
+                .getDayOfWeek();
 
         do{
             if(dayOfWeek.equals(firstDayOfWeek)){
@@ -140,7 +113,7 @@ public abstract class Calendar {
 
     }
 
-    private String printDaysNames() {
+    public String printDaysNames() {
 
         String res = "";
 
@@ -187,8 +160,17 @@ public abstract class Calendar {
 
 
 
-    public String printMonthAndYear(){
-       return null;
+    public String printYearHeaderAndMonth(){
+
+        String result = "";
+
+        result += printMonthHeader();
+        result += printGaps();
+        result += printYearHeader();
+        result += nextLine();
+
+
+        return result;
    }
 
 
@@ -200,10 +182,11 @@ public abstract class Calendar {
 
     }
 
-    /*public void setWeekStart(DayOfWeek dayOfWeek) {
+    public void setWeekStart(DayOfWeek dayOfWeek) {
         this.weekStart = dayOfWeek;
 
-    }*/
+    }
+
 
     public void setLocale(Locale locale) {
 
@@ -212,11 +195,16 @@ public abstract class Calendar {
     }
 
 
+    public void setToday(LocalDate today){
+        this.today = today;
+    }
 
 
     public LocalDate getToday() {
+
         return today;
     }
+
 
 
 
